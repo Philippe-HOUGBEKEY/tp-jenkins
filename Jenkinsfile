@@ -20,10 +20,22 @@ pipeline {
             }
         }
 
-        stage('Jacoco') {
+        stage('Jacoco Report') {
             steps {
                 bat 'mvn jacoco:report'
             }
+        }
+
+        stage('Archive') {
+            steps {
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            }
+        }
+    }
+
+    post {
+        always {
+            jacoco execPattern: 'target/jacoco.exec', classPattern: 'target/classes', sourcePattern: 'src/main/java'
         }
     }
 }
