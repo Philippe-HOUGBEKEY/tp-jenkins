@@ -35,7 +35,8 @@ pipeline {
 
     post {
         always {
-            jacoco execPattern: 'target/jacoco.exec', classPattern: 'target/classes', sourcePattern: 'src/main/java'
+            junit 'target/surefire-reports/*.xml'
+            publishCoverage adapters: [jacocoAdapter('target/jacoco.exec')]
         }
     }
 }
